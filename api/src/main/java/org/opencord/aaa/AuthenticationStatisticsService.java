@@ -31,7 +31,6 @@ public interface AuthenticationStatisticsService extends
      * @return AaaStatistics
     */
     public AaaStatistics getAaaStats();
-
     /**
      * Returns AuthenticationStatisticsDelegate object.
      *

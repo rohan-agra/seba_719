@@ -19,7 +19,6 @@ package org.opencord.aaa.impl;
 import static org.slf4j.LoggerFactory.getLogger;
 
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -44,16 +43,17 @@ public class AaaStatisticsManager
 
     private AuthenticationStatisticsDelegate statsDelegate;
 
+    @Override
     public AuthenticationStatisticsDelegate getStatsDelegate() {
         return statsDelegate;
     }
 
     private final Logger log = getLogger(getClass());
     private AaaStatistics aaaStats;
-    private LinkedList<Long> packetRoundTripTimeList = new LinkedList<Long>();
     public Map<Byte, Long> outgoingPacketMap = new HashMap<Byte, Long>();
     private static final int PACKET_COUNT_FOR_AVERAGE_RTT_CALCULATION = 5;
 
+    @Override
     public AaaStatistics getAaaStats() {
         return aaaStats;
     }
@@ -71,23 +71,26 @@ public class AaaStatisticsManager
         eventDispatcher.removeSink(AuthenticationStatisticsEvent.class);
     }
 
+    @Override
     public void handleRoundtripTime(byte inPacketIdentifier) {
         long inTimeInMilis = System.currentTimeMillis();
         if (outgoingPacketMap.containsKey(inPacketIdentifier)) {
-            if (packetRoundTripTimeList.size() > PACKET_COUNT_FOR_AVERAGE_RTT_CALCULATION) {
-                packetRoundTripTimeList.removeFirst();
+            if (aaaStats.getPacketRoundTripTimeList().size() > PACKET_COUNT_FOR_AVERAGE_RTT_CALCULATION) {
+                aaaStats.getPacketRoundTripTimeList().removeFirst();
             }
-            packetRoundTripTimeList.add(inTimeInMilis - outgoingPacketMap.get(inPacketIdentifier));
+            aaaStats.getPacketRoundTripTimeList().add(inTimeInMilis - outgoingPacketMap.get(inPacketIdentifier));
         }
     }
 
+    @Override
     public void calculatePacketRoundtripTime() {
-        if (packetRoundTripTimeList.size() > 0) {
-            long avg = (long) packetRoundTripTimeList.stream().mapToLong(i -> i).average().getAsDouble();
+        if (aaaStats.getPacketRoundTripTimeList().size() > 0) {
+            long avg = (long) aaaStats.getPacketRoundTripTimeList().stream().mapToLong(i -> i).average().getAsDouble();
             aaaStats.setRequestRttMilis(new AtomicLong(avg));
         }
     }
 
+    @Override
     public void putOutgoingIdentifierToMap(byte outPacketIdentifier) {
         outgoingPacketMap.put(outPacketIdentifier, System.currentTimeMillis());
     }
@@ -104,3 +107,5 @@ public class AaaStatisticsManager
         }
     }
 }
+
+

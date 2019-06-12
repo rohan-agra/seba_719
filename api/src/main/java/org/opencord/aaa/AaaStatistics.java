@@ -16,35 +16,44 @@
 
 package org.opencord.aaa;
 
+import java.util.LinkedList;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class AaaStatistics {
-    //Number of access accept packets sent to the server
+    // Number of access accept packets sent to the server
     private AtomicLong acceptResponsesRx = new AtomicLong();
-    //Number of access reject packets sent to the server
+    // Number of access reject packets sent to the server
     private AtomicLong rejectResponsesRx = new AtomicLong();
-    //Number of access challenge packets sent to the server
+    // Number of access challenge packets sent to the server
     private AtomicLong challengeResponsesRx = new AtomicLong();
-    //Number of access request packets sent to the server
+    // Number of access request packets sent to the server
     private AtomicLong accessRequestsTx = new AtomicLong();
-    //Number of access request packets pending a response from the server
+    // Number of access request packets pending a response from the server
     private AtomicLong pendingRequests = new AtomicLong();
-    //Number of packets of an unknown RADIUS type received from the accounting server
+    // Number of packets of an unknown RADIUS type received from the accounting
+    // server
     private AtomicLong unknownTypeRx = new AtomicLong();
-    //Number of access response packets received from the server with an invalid validator
+    // Number of access response packets received from the server with an invalid
+    // validator
     private AtomicLong invalidValidatorsRx = new AtomicLong();
-    //Number of dropped packets received from the accounting server
+    // Number of dropped packets received from the accounting server
     private AtomicLong droppedResponsesRx = new AtomicLong();
-    //Number of malformed access response packets received from the server
+    // Number of malformed access response packets received from the server
     private AtomicLong malformedResponsesRx = new AtomicLong();
-    //Number of packets received from an unknown server
+    // Number of packets received from an unknown server
     private AtomicLong unknownServerRx = new AtomicLong();
-    //Roundtrip packet time to the accounting server
+    // Roundtrip packet time to the accounting server
     private AtomicLong requestRttMilis = new AtomicLong();
-    //Number of access request packets retransmitted to the server
+    // Number of access request packets retransmitted to the server
     private AtomicLong requestReTx = new AtomicLong();
-    //Number of sessions expired
+    // Number of sessions expired
     private AtomicLong numberOfSessionsExpired = new AtomicLong();
+
+    private LinkedList<Long> packetRoundTripTimeList = new LinkedList<Long>();
+
+    public LinkedList<Long> getPacketRoundTripTimeList() {
+        return packetRoundTripTimeList;
+    }
 
     public Long getRequestReTx() {
         return requestReTx.get();
@@ -152,5 +161,65 @@ public class AaaStatistics {
         numberOfDroppedPackets += malformedResponsesRx.get();
         numberOfDroppedPackets += numberOfSessionsExpired.get();
         this.droppedResponsesRx = new AtomicLong(numberOfDroppedPackets);
+    }
+
+    public void resetAccessRequestTx() {
+
+        accessRequestsTx.set(0);
+    }
+
+    public void resetAcceptResponsesRx() {
+
+        acceptResponsesRx.set(0);
+    }
+
+    public void resetChallengeResponsesRx() {
+
+        challengeResponsesRx.set(0);
+    }
+
+    public void resetDroppedResponsesRx() {
+
+        droppedResponsesRx.set(0);
+    }
+
+    public void resetInvalidValidatorsRx() {
+
+        invalidValidatorsRx.set(0);
+    }
+
+    public void resetMalformedResponsesRx() {
+
+        malformedResponsesRx.set(0);
+    }
+
+    public void resetPendingRequests() {
+
+        pendingRequests.set(0);
+    }
+
+    public void resetRejectResponsesRx() {
+
+        rejectResponsesRx.set(0);
+    }
+
+    public void resetRequestReTx() {
+
+        requestReTx.set(0);
+    }
+
+    public void resetRequestRttMilis() {
+        packetRoundTripTimeList.clear();
+        requestRttMilis.set(0);
+    }
+
+    public void resetUnknownServerRx() {
+
+        unknownServerRx.set(0);
+    }
+
+    public void resetUnknownTypeRx() {
+
+        unknownTypeRx.set(0);
     }
 }

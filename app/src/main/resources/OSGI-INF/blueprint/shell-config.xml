@@ -22,5 +22,11 @@
         <command>
             <action class="org.opencord.aaa.impl.AaaResetDeviceCommand"/>
         </command>
+        <command>
+            <action class="org.opencord.aaa.impl.AaaResetCountersCommand"/>
+        </command>
+        <command>
+            <action class="org.opencord.aaa.impl.AaaShowCountersCommand"/>
+        </command>
     </command-bundle>
 </blueprint>
