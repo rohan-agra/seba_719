@@ -77,7 +77,6 @@ implements AuthenticationStatisticsService {
         if (outgoingPacketMap.containsKey(inPacketIdentifier)) {
             if (aaaStats.getPacketRoundTripTimeListSize() > PACKET_COUNT_FOR_AVERAGE_RTT_CALCULATION) {
                 aaaStats.getPacketRoundTripTimeListRemoveFirst();
-                System.out.println(aaaStats.getPacketRoundTripTimeList());
             }
             aaaStats.getPacketRoundTripTimeListAdd(inTimeInMilis - outgoingPacketMap.get(inPacketIdentifier));
         }
