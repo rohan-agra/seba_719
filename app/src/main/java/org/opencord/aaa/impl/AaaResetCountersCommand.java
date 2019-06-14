@@ -19,26 +19,16 @@ import org.apache.karaf.shell.commands.Command;
 import org.onosproject.cli.AbstractShellCommand;
 import org.opencord.aaa.AuthenticationStatisticsService;
 
-@Command(scope = "onos", name = "reset-aaa-counters",
-        description = "reset all the aaa counters")
+/**
+ * Reset value of all aaa statistics counters to 0.
+ */
+@Command(scope = "onos", name = "reset-aaa-counters", description = "Reset value of all aaa statistics counters to 0 ")
 public class AaaResetCountersCommand extends AbstractShellCommand {
 
-@Override
-protected void execute() {
-AuthenticationStatisticsService aaaStatisticsManager =  AbstractShellCommand.get(AuthenticationStatisticsService.class);
-
-aaaStatisticsManager.getAaaStats().resetAccessRequestTx();
-aaaStatisticsManager.getAaaStats().resetAcceptResponsesRx();
-aaaStatisticsManager.getAaaStats().resetChallengeResponsesRx();
-aaaStatisticsManager.getAaaStats().resetDroppedResponsesRx();
-aaaStatisticsManager.getAaaStats().resetInvalidValidatorsRx();
-aaaStatisticsManager.getAaaStats().resetMalformedResponsesRx();
-aaaStatisticsManager.getAaaStats().resetPendingRequests();
-aaaStatisticsManager.getAaaStats().resetRejectResponsesRx();
-aaaStatisticsManager.getAaaStats().resetRequestReTx();
-aaaStatisticsManager.getAaaStats().resetRequestRttMilis();
-aaaStatisticsManager.getAaaStats().resetUnknownServerRx();
-aaaStatisticsManager.getAaaStats().resetUnknownTypeRx();
-
-}
+    @Override
+    protected void execute() {
+        AuthenticationStatisticsService aaaStatisticsManager = AbstractShellCommand
+                .get(AuthenticationStatisticsService.class);
+        aaaStatisticsManager.getAaaStats().resetAllCounters();
+    }
 }

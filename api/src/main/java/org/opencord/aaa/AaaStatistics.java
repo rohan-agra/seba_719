@@ -55,6 +55,18 @@ public class AaaStatistics {
         return packetRoundTripTimeList;
     }
 
+    public int getPacketRoundTripTimeListSize() {
+        return packetRoundTripTimeList.size();
+    }
+
+    public void getPacketRoundTripTimeListRemoveFirst() {
+        packetRoundTripTimeList.removeFirst();
+    }
+
+    public void getPacketRoundTripTimeListAdd(long time) {
+        packetRoundTripTimeList.add(time);
+    }
+
     public Long getRequestReTx() {
         return requestReTx.get();
     }
@@ -163,63 +175,20 @@ public class AaaStatistics {
         this.droppedResponsesRx = new AtomicLong(numberOfDroppedPackets);
     }
 
-    public void resetAccessRequestTx() {
+    public void resetAllCounters() {
+        packetRoundTripTimeList.clear();
 
         accessRequestsTx.set(0);
-    }
-
-    public void resetAcceptResponsesRx() {
-
         acceptResponsesRx.set(0);
-    }
-
-    public void resetChallengeResponsesRx() {
-
         challengeResponsesRx.set(0);
-    }
-
-    public void resetDroppedResponsesRx() {
-
         droppedResponsesRx.set(0);
-    }
-
-    public void resetInvalidValidatorsRx() {
-
         invalidValidatorsRx.set(0);
-    }
-
-    public void resetMalformedResponsesRx() {
-
         malformedResponsesRx.set(0);
-    }
-
-    public void resetPendingRequests() {
-
         pendingRequests.set(0);
-    }
-
-    public void resetRejectResponsesRx() {
-
         rejectResponsesRx.set(0);
-    }
-
-    public void resetRequestReTx() {
-
         requestReTx.set(0);
-    }
-
-    public void resetRequestRttMilis() {
-        packetRoundTripTimeList.clear();
         requestRttMilis.set(0);
-    }
-
-    public void resetUnknownServerRx() {
-
         unknownServerRx.set(0);
-    }
-
-    public void resetUnknownTypeRx() {
-
         unknownTypeRx.set(0);
     }
 }

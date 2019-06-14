@@ -17,32 +17,41 @@ package org.opencord.aaa.impl;
 
 import org.apache.karaf.shell.commands.Command;
 import org.onosproject.cli.AbstractShellCommand;
+import org.opencord.aaa.AaaStatistics;
 import org.opencord.aaa.AuthenticationStatisticsService;
 
+/**
+ * Display current value of all aaa statistics counters.
+ */
 @Command(scope = "onos", name = "show-aaa-counters",
-        description = "Shows aaa counters")
-
+description = "Display current value of all aaa statistics counters")
 public class AaaShowCountersCommand extends AbstractShellCommand {
-@Override
-protected void execute() {
+    @Override
+    protected void execute() {
 
-AuthenticationStatisticsService aaaStatisticsManager =  AbstractShellCommand.get(AuthenticationStatisticsService.class);
-print("AcceptResponsesRx = %s, AccessRequestsTx = %s, ChallengeResponsesRx = %s, DroppedResponsesRx = %s,"
-                + " InvalidValidatorsRx = %s, MalformedResponsesRx = %s, PendingRequests = %s,"
-                + " RejectResponsesRx = %s, RequestReTx = %s, RequestRttMilis = %s,"
-                + " UnknownServerRx = %s, UnknownTypeRx = %s ",
-                aaaStatisticsManager.getAaaStats().getAcceptResponsesRx().toString(),
-                aaaStatisticsManager.getAaaStats().getAccessRequestsTx().toString(),
-                aaaStatisticsManager.getAaaStats().getChallengeResponsesRx().toString(),
-                aaaStatisticsManager.getAaaStats().getDroppedResponsesRx().toString(),
-                aaaStatisticsManager.getAaaStats().getInvalidValidatorsRx().toString(),
-                aaaStatisticsManager.getAaaStats().getMalformedResponsesRx().toString(),
-                aaaStatisticsManager.getAaaStats().getPendingRequests().toString(),
-                aaaStatisticsManager.getAaaStats().getRejectResponsesRx().toString(),
-                aaaStatisticsManager.getAaaStats().getRequestReTx().toString(),
-                aaaStatisticsManager.getAaaStats().getRequestRttMilis().toString(),
-                aaaStatisticsManager.getAaaStats().getUnknownServerRx().toString(),
-                aaaStatisticsManager.getAaaStats().getUnknownTypeRx().toString());
-}
+        AaaStatistics aaaStats = new AaaStatistics();
+
+        AuthenticationStatisticsService aaaStatisticsManager =
+                AbstractShellCommand.get(AuthenticationStatisticsService.class);
+        aaaStats = aaaStatisticsManager.getAaaStats();
+
+        print(" AccessRequestsTx = %s, ChallengeResponsesRx = %s, RequestReTx = %s, "
+                + " AcceptResponsesRx = %s,"
+                + " RejectResponsesRx = %s, PendingRequests = %s, DroppedResponsesRx = %s,"
+                + " InvalidValidatorsRx = %s, MalformedResponsesRx = %s,"
+                + " UnknownServerRx = %s, UnknownTypeRx = %s, RequestRttMilis = %s",
+                aaaStats.getAccessRequestsTx().toString(),
+                aaaStats.getChallengeResponsesRx().toString(),
+                aaaStats.getRequestReTx().toString(),
+                aaaStats.getAcceptResponsesRx().toString(),
+                aaaStats.getRejectResponsesRx().toString(),
+                aaaStats.getPendingRequests().toString(),
+                aaaStats.getDroppedResponsesRx().toString(),
+                aaaStats.getInvalidValidatorsRx().toString(),
+                aaaStats.getMalformedResponsesRx().toString(),
+                aaaStats.getUnknownServerRx().toString(),
+                aaaStats.getUnknownTypeRx().toString(),
+                aaaStats.getRequestRttMilis().toString());
+    }
 }
 

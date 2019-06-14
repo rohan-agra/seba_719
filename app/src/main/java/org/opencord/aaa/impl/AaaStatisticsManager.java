@@ -38,8 +38,8 @@ import org.slf4j.Logger;
 @Service
 @Component(immediate = true)
 public class AaaStatisticsManager
-        extends AbstractListenerManager<AuthenticationStatisticsEvent, AuthenticationStatisticsEventListener>
-        implements AuthenticationStatisticsService {
+extends AbstractListenerManager<AuthenticationStatisticsEvent, AuthenticationStatisticsEventListener>
+implements AuthenticationStatisticsService {
 
     private AuthenticationStatisticsDelegate statsDelegate;
 
@@ -75,16 +75,17 @@ public class AaaStatisticsManager
     public void handleRoundtripTime(byte inPacketIdentifier) {
         long inTimeInMilis = System.currentTimeMillis();
         if (outgoingPacketMap.containsKey(inPacketIdentifier)) {
-            if (aaaStats.getPacketRoundTripTimeList().size() > PACKET_COUNT_FOR_AVERAGE_RTT_CALCULATION) {
-                aaaStats.getPacketRoundTripTimeList().removeFirst();
+            if (aaaStats.getPacketRoundTripTimeListSize() > PACKET_COUNT_FOR_AVERAGE_RTT_CALCULATION) {
+                aaaStats.getPacketRoundTripTimeListRemoveFirst();
+                System.out.println(aaaStats.getPacketRoundTripTimeList());
             }
-            aaaStats.getPacketRoundTripTimeList().add(inTimeInMilis - outgoingPacketMap.get(inPacketIdentifier));
+            aaaStats.getPacketRoundTripTimeListAdd(inTimeInMilis - outgoingPacketMap.get(inPacketIdentifier));
         }
     }
 
     @Override
     public void calculatePacketRoundtripTime() {
-        if (aaaStats.getPacketRoundTripTimeList().size() > 0) {
+        if (aaaStats.getPacketRoundTripTimeListSize() > 0) {
             long avg = (long) aaaStats.getPacketRoundTripTimeList().stream().mapToLong(i -> i).average().getAsDouble();
             aaaStats.setRequestRttMilis(new AtomicLong(avg));
         }
