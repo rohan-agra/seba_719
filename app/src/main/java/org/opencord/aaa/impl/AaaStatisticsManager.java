@@ -83,6 +83,11 @@ implements AuthenticationStatisticsService {
     }
 
     @Override
+    public void resetAllCounters() {
+        aaaStats.resetAllCounters();
+    }
+
+    @Override
     public void calculatePacketRoundtripTime() {
         if (aaaStats.getPacketRoundTripTimeListSize() > 0) {
             long avg = (long) aaaStats.getPacketRoundTripTimeList().stream().mapToLong(i -> i).average().getAsDouble();

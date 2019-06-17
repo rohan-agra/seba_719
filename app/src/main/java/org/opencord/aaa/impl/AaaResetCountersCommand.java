@@ -29,6 +29,6 @@ public class AaaResetCountersCommand extends AbstractShellCommand {
     protected void execute() {
         AuthenticationStatisticsService aaaStatisticsManager = AbstractShellCommand
                 .get(AuthenticationStatisticsService.class);
-        aaaStatisticsManager.getAaaStats().resetAllCounters();
+        aaaStatisticsManager.resetAllCounters();
     }
 }

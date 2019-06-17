@@ -59,6 +59,10 @@ public class AaaStatistics {
         return packetRoundTripTimeList.size();
     }
 
+    public void clearPacketRoundTripTimeList() {
+        packetRoundTripTimeList.clear();
+    }
+
     public void getPacketRoundTripTimeListRemoveFirst() {
         packetRoundTripTimeList.removeFirst();
     }
@@ -176,7 +180,7 @@ public class AaaStatistics {
     }
 
     public void resetAllCounters() {
-        packetRoundTripTimeList.clear();
+        clearPacketRoundTripTimeList();
 
         accessRequestsTx.set(0);
         acceptResponsesRx.set(0);
